@@ -10,7 +10,7 @@ This project analyzes youth talent development strategies in Football Manager 20
 
 ## Project Structure
 * **`data/`**: Contains the raw and processed datasets, including `development_efficiency_matrix_clean.csv`.
-* **`scripts/`**: Includes `analysis.R`, the R-based data cleaning and visualization pipeline.
+* **`scripts/`**: Includes `fmcode.R`, the R-based data cleaning and visualization pipeline.
 * **`images/`**: Houses the final visualizations, such as `youth_development_matrix.png`.
 
 ## Key Insights
