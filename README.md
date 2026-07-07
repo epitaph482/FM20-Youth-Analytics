@@ -6,37 +6,25 @@
 ![dplyr](https://img.shields.io/badge/dplyr-1565C0?style=for-the-badge&logo=r&logoColor=white)
 ![Data Analysis](https://img.shields.io/badge/Data%20Analysis-FF9900?style=for-the-badge)
 
-This project analyzes youth talent development strategies in Football Manager 2020. It goes beyond basic descriptive statistics to understand the "Efficiency Paradox" between a football club's size, its youth production capacity, and ultimate development success.
+This project explores the "Efficiency Paradox" in Football Manager 2020: Do large academies produce better players, or do smaller ones develop talent more efficiently?
 
 ## Project Structure
-* **`data/`**: Contains the raw and processed datasets, including `development_efficiency_matrix_clean.csv`.
-* **`scripts/`**: Includes `analysis.R`, the R-based data cleaning and visualization pipeline.
-* **`images/`**: Houses the final visualizations, such as `youth_development_matrix.png`.
+* **`data/`**: Contains raw datasets (`.csv`) and the cleaned output (`development_efficiency_matrix_clean.csv`).
+* **`scripts/`**: Contains the primary analysis pipeline (`analysis.R`).
+* **`images/`**: Contains the high-fidelity visualization outputs.
+* **`sql/`**: Contains the database extraction logic using SQL Window Functions.
 
 ## Key Insights
-* **The Efficiency Paradox**: High-production clubs naturally show lower development efficiency percentages. Their prospects have higher potential ability (PA) ceilings, which demand longer and more rigorous developmental runways to reach full current ability (CA).
-* **Positional Specialization**: Identifying top-tier positional talent requires granular comparison within specific academies, moving beyond broad CA/PA averages.
+* **The Efficiency Paradox**: High-production clubs often show lower efficiency percentages as their vast talent pools dilute the average. 
+* **Positional Specialization**: Smaller clubs frequently demonstrate superior development efficiency in high-potential prospects compared to global giants.
 
 ## Key Visualization
-*The matrix below visualizes the relationship between Average Current Ability and Average Potential Ability across different academies, highlighting which clubs are most efficient at developing raw talent.*
-
 ![Youth Development Matrix](images/youth_development_matrix.png)
 
-## Technical Implementation: SQL Window Functions
-The foundational data for this matrix was extracted from a large PostgreSQL database. To accurately rank youth prospects relative to their peers within the same academy and position, the data pipeline utilizes SQL Window Functions. 
+## Data Pipeline & Methods
+1. **Data Extraction**: Used SQL Window Functions (`RANK()` over `PARTITION BY`) to rank prospects within their specific academies and positions.
+2. **Data Cleaning**: Applied a global encoding fix in R to handle international character sets across academy names.
+3. **Visualization**: Used `ggplot2` with `viridis` scales to map development efficiency against current/potential ability metrics.
 
-**Example snippet from the positional ranking query:**
-```sql
-SELECT 
-    club,
-    name,
-    best_position,
-    ca AS current_ability,
-    pa AS potential_ability,
-    RANK() OVER (PARTITION BY club, best_position ORDER BY pa DESC) as positional_rank
-FROM 
-    fm20_dev_data
-WHERE 
-    age <= 19
-ORDER BY 
-    club, positional_rank;
+---
+*Developed as a data analytics portfolio project by Ali.*
