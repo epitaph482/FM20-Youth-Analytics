@@ -8,8 +8,8 @@ library(dplyr)
 library(readr)
 
 # 1. Load Data
-raw_data <- read_csv("C:/Temp/data/development_efficiency_matrix.csv", show_col_types = FALSE)
-positional_data <- read_csv("C:/Temp/data/positional_talent_analysis.csv", show_col_types = FALSE)
+raw_data <- read_csv("data/development_efficiency_matrix.csv", show_col_types = FALSE)
+positional_data <- read_csv("data/positional_talent_analysis.csv", show_col_types = FALSE)
 
 # 2. Global Data Cleaning
 # 100% ASCII-only code to prevent ANY RStudio parsing errors on Windows.
@@ -73,15 +73,15 @@ development_matrix_plot <- ggplot(clean_data, aes(
   )
 
 # 4. Save Output
-ggsave("C:/Temp/images/youth_development_matrix.png", plot = development_matrix_plot, width = 10, height = 6, dpi = 300)
+ggsave("images/youth_development_matrix.png", plot = development_matrix_plot, width = 10, height = 6, dpi = 300)
 
 # 5. Export Clean Data
-write_excel_csv(clean_data, "C:/Temp/data/development_efficiency_matrix_final.csv")
-write_excel_csv(clean_positional, "C:/Temp/data/positional_talent_analysis_final.csv")
+write_excel_csv(clean_data, "data/development_efficiency_matrix_final.csv")
+write_excel_csv(clean_positional, "data/positional_talent_analysis_final.csv")
 
 # 6. Load the corrupted data
-raw_ranking <- read_csv("C:/Temp/data/youth_academies_ranking.csv", show_col_types = FALSE)
-raw_capacity <- read_csv("C:/Temp/data/youth_production_capacity.csv", show_col_types = FALSE)
+raw_ranking <- read_csv("data/youth_academies_ranking.csv", show_col_types = FALSE)
+raw_capacity <- read_csv("data/youth_production_capacity.csv", show_col_types = FALSE)
 
 # 7. The Ultimate ASCII-Only Dictionary Function
 fix_encoding <- function(df) {
@@ -113,5 +113,5 @@ fix_encoding <- function(df) {
 clean_ranking <- fix_encoding(raw_ranking)
 clean_capacity <- fix_encoding(raw_capacity)
 
-write_excel_csv(clean_ranking, "C:/Temp/data/youth_academies_ranking_clean.csv")
-write_excel_csv(clean_capacity, "C:/Temp/data/youth_production_capacity_clean.csv")
+write_excel_csv(clean_ranking, "data/youth_academies_ranking_clean.csv")
+write_excel_csv(clean_capacity, "data/youth_production_capacity_clean.csv")
