@@ -1,53 +1,30 @@
-# RIO 2017 Logistics Simulation Project
+# FM20 Youth Development Analytics
 
-## Overview
-This repository contains the R-side data analysis and JaamSim resource-based simulation models for the RIO 2017 logistics project. The project evaluates system performance under capacity-constrained carrier queue scenarios using a dataset of 2,545 validated orders.
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![R](https://img.shields.io/badge/R-276DC3?style=for-the-badge&logo=r&logoColor=white)
+![ggplot2](https://img.shields.io/badge/ggplot2-3399FF?style=for-the-badge&logo=r&logoColor=white)
+![dplyr](https://img.shields.io/badge/dplyr-1565C0?style=for-the-badge&logo=r&logoColor=white)
+![Data Analysis](https://img.shields.io/badge/Data%20Analysis-FF9900?style=for-the-badge)
+
+This project explores the "Efficiency Paradox" in Football Manager 2020: Do large academies produce better players, or do smaller ones develop talent more efficiently?
 
 ## Project Structure
-```
-.
-├── data/
-│   └── rio_2017_queue_capacity_3_4_5_detailed_clarified.xlsx   # Source dataset (sheet: "Full Data All Orders")
-├── scripts/
-│   └── proje1.R                                                  # Combined R analysis script
-├── simulation/
-│   ├── RIO_2017_JaamSim_ABC_Resource_S0_345.cfg                  # Scenario S0: Base capacity (3-4-5)
-│   ├── RIO_2017_JaamSim_ABC_Resource_S1_456.cfg                  # Scenario S1: Mild capacity (4-5-6)
-│   └── RIO_2017_JaamSim_ABC_Resource_S2_567.cfg                  # Scenario S2: Stronger capacity (5-6-7)
-└── docs/
-    └── RIO_2017_Logistics_Simulation_Project_Report_FINAL_WITH_JAAMSIM.pdf
-```
+* **`data/`**: Contains raw datasets (`.csv`) and the cleaned output (`development_efficiency_matrix_final.csv`).
+* **`scripts/`**: Contains the primary analysis pipeline (`analysis.R`).
+* **`images/`**: Contains the high-fidelity visualization outputs.
+* **`sql/`**: Contains the database extraction logic using SQL Window Functions.
 
-- **/data**: Contains the source dataset, an Excel workbook with the `Full Data All Orders` sheet.
-- **/scripts**: Contains the integrated R analysis script (`proje1.R`), which runs in two parts:
-    - **Part 1 — Pre-Carrier Handoff Analysis:** cleans the data and computes queue-adjusted pre-carrier handoff time (`carrier_dispatch_time + queue_delay_days`).
-    - **Part 2 — Final Scenarios & JaamSim Comparison:** input distribution fitting (Interarrival, Approval, Dispatch, Transit times), scenario-based queue delay calculation, and statistical validation against JaamSim outputs.
-- **/simulation**: Contains the JaamSim `.cfg` files for scenarios S0, S1, and S2 (Seize/Release resource-based queue models).
-- **/docs**: Contains the final project report (PDF).
+## Key Insights
+* **The Efficiency Paradox**: High-production clubs often show lower efficiency percentages as their vast talent pools dilute the average. 
+* **Positional Specialization**: Smaller clubs frequently demonstrate superior development efficiency in high-potential prospects compared to global giants.
 
-> Note: running `scripts/proje1.R` generates its own output folders (`pre_carrier_handoff_outputs_clean/` and `rio_final_outputs_capacity_scenarios_jaamsim_v4/`) with CSV reports and PNG visualizations. These are not committed to the repo — they're recreated each time the script runs.
+## Key Visualization
+![Youth Development Matrix](images/youth_development_matrix.png)
 
-## Methodology
-The simulation approach integrates two main components:
-1. **R Analysis:** Data cleaning, descriptive statistics, and scenario-based queue delay calculation.
-2. **JaamSim Implementation:** Resource-based queue modeling (Seize/Release logic) for capacity scenarios (S0: 3-4-5, S1: 4-5-6, S2: 5-6-7).
-
-## Scenarios
-| Scenario | Description |
-| :--- | :--- |
-| **S0** | Base Capacity (3-4-5) |
-| **S1** | Mild Capacity (4-5-6) |
-| **S2** | Stronger Capacity (5-6-7) |
-| **S3/S4** | Policy extensions with peak-day overtime logic |
-
-## How to Run
-1. Make sure `data/rio_2017_queue_capacity_3_4_5_detailed_clarified.xlsx` is present under `data/` (already included in this repo).
-2. Open `scripts/proje1.R` in RStudio and run it — required packages (`readxl`, `ggplot2`, `fitdistrplus`, `moments`, `nortest`, `dplyr`, `tidyr`, `gridExtra`) are installed automatically if missing.
-3. The script generates output folders with CSVs and PNGs relative to your working directory (see note above).
-4. To run the JaamSim models, open the `.cfg` files under `simulation/` in [JaamSim](https://jaamsim.com/).
-
-## Validation
-The JaamSim models were validated against the R-side queue analysis, achieving a validation error rate of approximately 7.5-7.8%, confirming the consistency of our capacity-constrained queue model.
+## Data Pipeline & Methods
+1. **Data Extraction**: Used SQL Window Functions (`RANK()` over `PARTITION BY`) to rank prospects within their specific academies and positions.
+2. **Data Cleaning**: Applied a global encoding fix in R to handle international character sets across academy names.
+3. **Visualization**: Used `ggplot2` with `viridis` scales to map development efficiency against current/potential ability metrics.
 
 ---
-*This project was developed for the Logistics Simulation course requirements.*
+*Developed as a data analytics portfolio project by Ali.*
