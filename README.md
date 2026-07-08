@@ -9,7 +9,7 @@
 This project explores the "Efficiency Paradox" in Football Manager 2020: Do large academies produce better players, or do smaller ones develop talent more efficiently?
 
 ## Project Structure
-* **`data/`**: Contains raw datasets (`.csv`) and the cleaned output (`development_efficiency_matrix_clean.csv`).
+* **`data/`**: Contains raw datasets (`.csv`) and the cleaned output (`development_efficiency_matrix_final.csv`).
 * **`scripts/`**: Contains the primary analysis pipeline (`analysis.R`).
 * **`images/`**: Contains the high-fidelity visualization outputs.
 * **`sql/`**: Contains the database extraction logic using SQL Window Functions.
